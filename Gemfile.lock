@@ -1,0 +1,209 @@
+GIT
+  remote: git://github.com/jnicklas/carrierwave-mongoid.git
+  revision: 7e434b80344649642da0e5eb99235cecfc30f1f1
+  specs:
+    carrierwave-mongoid (0.7.0)
+      carrierwave (>= 0.8.0, < 0.11.0)
+      mongoid (>= 3.0, < 5.0)
+      mongoid-grid_fs (~> 1.3)
+
+GIT
+  remote: https://github.com/mongoid/mongoid.git
+  revision: bde8ac1b0f16aaad7e343073ce8c5b5b9c9ffc5b
+  specs:
+    mongoid (4.0.0.beta1)
+      activemodel (>= 4.0.0)
+      moped (~> 2.0.beta6)
+      origin (~> 2.1)
+      tzinfo (>= 0.3.37)
+
+GIT
+  remote: https://github.com/ywencn/ransack.git
+  revision: b37636c3c84a46ceb409cde4cc89f068d85acc08
+  specs:
+    ransack (1.1.0)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 0.6.0)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionpack (4.0.3)
+      activesupport (= 4.0.3)
+      builder (~> 3.1.0)
+      erubis (~> 2.7.0)
+      rack (~> 1.5.2)
+      rack-test (~> 0.6.2)
+    activemodel (4.0.3)
+      activesupport (= 4.0.3)
+      builder (~> 3.1.0)
+    activerecord (4.0.3)
+      activemodel (= 4.0.3)
+      activerecord-deprecated_finders (~> 1.0.2)
+      activesupport (= 4.0.3)
+      arel (~> 4.0.0)
+    activerecord-deprecated_finders (1.0.3)
+    activesupport (4.0.3)
+      i18n (~> 0.6, >= 0.6.4)
+      minitest (~> 4.2)
+      multi_json (~> 1.3)
+      thread_safe (~> 0.1)
+      tzinfo (~> 0.3.37)
+    addressable (2.3.5)
+    arel (4.0.2)
+    async-rack (0.5.1)
+      rack (~> 1.1)
+    atomic (1.1.15)
+    awesome_print (1.2.0)
+    axiom-types (0.0.5)
+      descendants_tracker (~> 0.0.1)
+      ice_nine (~> 0.9)
+    bson (2.2.1)
+    bson_ext (1.5.1)
+    builder (3.1.4)
+    cached_key_value_store (0.1.0)
+      activesupport
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
+    connection_pool (1.2.0)
+    descendants_tracker (0.0.3)
+    em-synchrony (1.0.3)
+      eventmachine (>= 1.0.0.beta.1)
+    em-websocket (0.3.8)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
+    equalizer (0.0.9)
+    erubis (2.7.0)
+    eventmachine (1.0.3)
+    god (0.13.4)
+    goliath (1.0.3)
+      async-rack
+      em-synchrony (>= 1.0.0)
+      em-websocket (= 0.3.8)
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (= 0.6.0.beta.2)
+      log4r
+      multi_json
+      rack (>= 1.2.2)
+      rack-contrib
+      rack-respond_to
+    grape (0.6.1)
+      activesupport
+      builder
+      hashie (>= 1.2.0)
+      multi_json (>= 1.3.2)
+      multi_xml (>= 0.5.2)
+      rack (>= 1.3.0)
+      rack-accept
+      rack-mount
+      virtus (>= 1.0.0)
+    hashie (2.0.5)
+    hiredis (0.4.5)
+    http_parser.rb (0.6.0.beta.2)
+    i18n (0.6.9)
+    ice_nine (0.11.0)
+    json (1.8.1)
+    log4r (1.1.10)
+    mime-types (2.1)
+    mini_magick (3.7.0)
+      subexec (~> 0.2.1)
+    mini_portile (0.6.0)
+    minitest (4.7.5)
+    mongo (1.3.1)
+      bson (>= 1.3.1)
+    mongoid-grid_fs (1.9.2)
+      mime-types (>= 1.19, < 3.0)
+      mongoid (>= 3.0, < 5.0)
+    moped (2.0.0.beta6)
+      bson (~> 2.2)
+      connection_pool (~> 1.2)
+      optionable (~> 0.2.0)
+    multi_json (1.9.0)
+    multi_xml (0.5.5)
+    nokogiri (1.6.2.1)
+      mini_portile (= 0.6.0)
+    optionable (0.2.0)
+    origin (2.1.0)
+    pdf-core (0.1.6)
+    pg (0.17.1)
+    polyamorous (0.6.4)
+      activerecord (>= 3.0)
+    prawn (0.15.0)
+      pdf-core (~> 0.1.3)
+      ttfunk (~> 1.1.0)
+    prawn-grouping (0.1.0)
+      prawn (~> 0.15.0)
+    rack (1.5.2)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-accept-media-types (0.9)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
+    rack-respond_to (0.9.8)
+      rack-accept-media-types (>= 0.6)
+    rack-test (0.6.2)
+      rack (>= 1.0)
+    rash (0.4.0)
+      hashie (~> 2.0.0)
+    redis (3.0.7)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    ruby_odata (0.1.6)
+      activesupport (>= 3.0.0)
+      addressable (>= 2.3.4)
+      i18n (~> 0.6.0)
+      nokogiri (>= 1.4.2)
+      rest-client (>= 1.5.1)
+    shipstation-rb (0.0.5)
+      rash (= 0.4.0)
+      ruby_odata (= 0.1.6)
+    subexec (0.2.3)
+    thread_safe (0.2.0)
+      atomic (>= 1.1.7, < 2)
+    ttfunk (1.1.1)
+    tzinfo (0.3.39)
+    virtus (1.0.1)
+      axiom-types (~> 0.0.5)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0.1)
+      equalizer (~> 0.0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord (~> 4.0.2)
+  awesome_print
+  bson
+  bson_ext
+  builder (= 3.1.4)
+  cached_key_value_store
+  carrierwave
+  carrierwave-mongoid!
+  em-synchrony (~> 1.0.3)
+  god (~> 0.13.3)
+  goliath (~> 1.0.3)
+  grape (~> 0.6.1)
+  hiredis (~> 0.4.5)
+  i18n (~> 0.6.9)
+  mini_magick
+  mongo
+  mongoid!
+  pg (~> 0.17.1)
+  prawn
+  prawn-grouping
+  rack-test
+  ransack!
+  redis (~> 3.0.6)
+  rest-client (~> 1.6.7)
+  shipstation-rb (~> 0.0.5)

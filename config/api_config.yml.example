@@ -1,0 +1,20 @@
+base: &base
+  base_url: http://199.27.105.132:8081
+  x_client_id: test_client_id_1
+  x_client_secret: test_client_secret_1
+  payment:
+    base_url: http://192.168.199.122:8001
+    x_client_id: client_test_id_1
+  ship_station_api: https://data.shipstation.com/1.2
+  ship_station_account: kaka
+  ship_station_password: changchun
+  ship_station_store_id: 29510
+
+development:
+  <<: *base
+
+test:
+  <<: *base
+
+production:
+  <<: *base

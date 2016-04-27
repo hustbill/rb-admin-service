@@ -1,0 +1,39 @@
+class CouponProductGroup < ActiveRecord::Base
+  # extends ...................................................................
+  # includes ..................................................................
+  # security ..................................................................
+  # relationships .............................................................
+  has_many :coupon_product_groups_products
+  has_many :products, through: :coupon_product_groups_products
+  has_one :coupon
+  # validations ...............................................................
+  # callbacks .................................................................
+  # scopes ....................................................................
+  # additional config .........................................................
+  # class methods .............................................................
+  # public instance methods ...................................................
+  def decorated_attributes
+    products_array = []
+    products.each do |pp|
+      product = []
+      product << pp.id
+      product << pp.name
+      product << CouponProductGroupsProduct.catalog_name(pp.id, self.id)
+      variants_array = []
+      pp.variants.each do |vv|
+        variants_array << vv["sku"]
+      end
+      product << variants_array
+      products_array << product
+    end
+    {
+      "id" => id,
+      "name" => name,
+      "description" => description,
+      "products" => products_array
+    }
+  end
+  # protected instance methods ................................................
+  # private instance methods ..................................................
+
+end

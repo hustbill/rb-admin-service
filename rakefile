@@ -1,0 +1,126 @@
+#####################################################
+# The rake ss:push_orders will sync
+# our system orders to shipstation
+# it code for FTO.
+# api.shipstation.com for more
+# oh, If you want to write more model association,
+# write in admin_service proj.
+# Billy 2016-04-26
+#####################################################
+require "rubygems"
+require "bundler/setup"
+require 'active_record'
+require './app/models/order'
+require './app/models/line_item'
+require './app/models/adjustment'
+require './app/models/shipment'
+require './app/models/address'
+require './app/models/user'
+require './app/models/product'
+require './app/models/variant'
+require './app/models/country'
+require './app/models/state'
+require './app/models/line_items_personalized_value'
+require './app/models/personalized_type'
+require './app/models/state_event'
+require './app/models/preference'
+# Dir[Rails.root.join("./models/*.rb")].each { |f| p f; require f }
+require 'yaml'
+require 'erb'
+require 'shipstation'
+
+namespace :ss do
+  # ENV=production account=kakaka password=changchun store_id=37069 rake ss:push_orders
+  # ENV=production rake ss:push_orders
+  desc "loads database configuration in for other tasks to run"
+  task :load_config do
+    ActiveRecord::Base.configurations = db_conf
+    ActiveRecord::Base.establish_connection db_conf[ ENV['ENV']||'development' ]
+  end
+
+  # push our system orders to shipstation.com, via ss api.
+  # http://api.shipstation.com for more.
+  desc "sync orders to shipstation"
+  task push_orders: :load_config do
+    account_config = YAML.load_file("./config/api_config.yml")[ENV["ENV"]||"development"]
+    puts "Init shipstation collection."
+    @client = ShipStation::Client.new(
+        "https://data.shipstation.com/1.3",
+        ENV["account"]||account_config["ship_station_account"],
+        ENV["password"]||account_config["ship_station_password"])
+    puts "Begin push orders."
+    Order.where('state' => "complete")
+      .where('payment_state' => "paid")
+      .where('shipment_state' => "ready")
+      .where("completed_at >= ?", "2014-06-11")
+      .find_in_batches(batch_size: 20) do |orders|
+        orders.each do |real_order|
+          if @client.orders.where(OrderNumber: real_order.number).present?
+            puts "#{real_order.number} already existed."
+            next
+          end
+          ss_order = @client.order.create(
+            StoreID: ENV["store_id"]||account_config["ship_station_store_id"],
+            OrderNumber: real_order.number,
+            ImportKey: "OrderID#{real_order.id}",
+            OrderDate: real_order.order_date,
+            PayDate: real_order.order_date,
+            OrderStatusID: 2,
+            RequestedShippingService: ENV["provider_name"]||"FedEx",
+            OrderTotal: real_order.total,
+            AmountPaid: real_order.payment_total,
+            ShippingAmount: real_order.adjustments.select{|aa| aa["label"] == "Shipping" }[0].try(:amount),
+            TaxAmount:      real_order.adjustments.select{|aa| aa["label"] == "sales_tax"}[0].try(:amount),
+            NotesFromBuyer: "Please make sure it gets here by Monday!",
+            InternalNotes: "Expedite this order.",
+            BuyerName: real_order.user.login,
+            BuyerEmail: real_order.user.email,
+            ShipName: "#{real_order.ship_address.firstname} #{real_order.ship_address.lastname}",
+            ShipCompany: "",
+            ShipStreet1: real_order.ship_address.address1,
+            ShipCity: real_order.ship_address.city,
+            ShipState: real_order.ship_address.state.name,
+            ShipPostalCode: real_order.ship_address.zipcode,
+            ShipCountryCode: real_order.ship_address.country.iso,
+            ShipPhone: real_order.ship_address.phone,
+            AddressVerified: 0,
+            MarketplaceID: 0,
+            InsuranceProvider: 0,
+            Confirmation: 0)
+          real_order.line_items.each do |item|
+            # next if item.product.taxons.map{|t| t.name.downcase }.include?("system")
+            @client.order_item.create(
+              OrderID: ss_order.OrderID,
+              SKU: item.variant.sku,
+              Description: item.product.name,
+              WeightOz: item.variant.weight,
+              Quantity: item.quantity,
+              UnitPrice: item.price,
+              Options: item.line_items_personalized_values.map{|val| "#{val.personalized_name}: #{val.personalized_value}" }.join(' '))
+          end
+
+          shipment = real_order.shipments.first
+          if shipment
+            real_order.update(shipment_state: "assemble")
+            shipment.update(state: "assemble")
+            real_order.state_events.create(
+              user_id: real_order.user_id,
+              name: "shipment",
+              previous_state: shipment.state || "",
+              next_state: "assemble")
+          else
+            puts "#{real_order.number} has no shipments. order state events create failed."
+          end
+          puts "#{real_order.number}(id:#{real_order.id}) pushed."
+        end
+      end
+
+  end
+
+end
+
+def db_conf
+  config = YAML.load(ERB.new(File.read('config/database.yml')).result)
+end
+
+

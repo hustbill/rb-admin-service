@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: zoivi
+      hosts:
+        - 192.168.199.81:27017

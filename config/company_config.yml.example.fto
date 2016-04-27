@@ -1,0 +1,4 @@
+config:
+  enable_personalized_type: true
+  enable_customer_id: false
+  company_code: FTO

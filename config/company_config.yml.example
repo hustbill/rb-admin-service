@@ -1,0 +1,3 @@
+config:
+  enable_personalized_type: true
+  enable_customer_id: false

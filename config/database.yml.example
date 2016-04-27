@@ -1,0 +1,18 @@
+base: &base
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: tumayun
+  password: '123456'
+  host: localhost
+  database: og_live
+
+development:
+  <<: *base
+
+test:
+  <<: *base
+  database: og_test
+
+production:
+  <<: *base
